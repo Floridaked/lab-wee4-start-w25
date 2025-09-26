@@ -1,0 +1,22 @@
+#cloud-config
+users:
+  - name: web
+    primary_group: web
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILnCLjMuWrlUKFa38eTPFI+OXK2THML0VetL6dbPnS9q you@example.com   
+
+
+package_update: true
+package_upgrade: true
+packages:
+  - nginx
+  - nmap
+
+runcmd:
+  - [ systemctl, enable, "--now", "nginx" ]
+  - [ hostnamectl, set-hostname, "w4lab-instance" ]
+
+final_message: "cloud-init finished."
